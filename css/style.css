@@ -1,0 +1,199 @@
+/* Variables */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --text-color: black;
+    --background-color: rgba(255, 255, 255, 0.6);
+    --border-radius: 5px;
+}
+
+/* Reset */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+form,
+input,
+select,
+button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* Body */
+body {
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Imagens de fundo */
+body.form1-bg {
+    background-image: url("../img/inspeção01.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: screen;
+}
+
+body.form2-bg {
+    background-image: url("../img/inspeção02.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: screen;
+}
+
+body.form3-bg {
+    background-image: url("../img/inspeção03.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: screen;
+}
+
+
+/* Container */
+.container {
+    max-width: 800px;
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.header {
+    margin-bottom: 10px;
+}
+
+.app-title {
+    color: var(--text-color);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    margin-right: 20px;
+}
+
+.logo {
+    max-width: 100px;
+    max-height: 50px;
+    margin-bottom: 0;
+}
+
+/* Main */
+.main-content {
+    padding-bottom: 20px;
+}
+
+/* Forms */
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 600px;
+    justify-content: space-between;
+}
+
+.form-group label {
+    margin-right: 10px;
+    width: 22%; /* Reduzindo a largura dos labels */
+    text-align: left;
+    display: inline-block;
+    font-weight: bold;
+}
+
+/*Alterando o select container para o alinhamento horizontal*/
+.form-group .selectContainer {
+    display: flex;
+    flex-direction: row;
+    width: 78%; /* Aumentando a largura do selectContainer */
+    flex-grow: 1;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.form-group .selectContainer select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    width: 47%; /* Define a largura dos selects */
+    min-width: 130px; /* Reduz o min-width */
+    word-wrap: break-word;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    box-sizing: border-box;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    width: 45%;
+    /* Ajusta a largura dos selects */
+    color: var(--text-color)
+}
+
+.black-text {
+    color: var(--text-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #367c39;
+}
+
+#resultados table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#resultados th,
+#resultados td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#resultados th {
+    background-color: #f2f2f2;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 20px;
+}
