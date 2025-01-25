@@ -2,14 +2,14 @@
 
 ## 1. Introdução
 
-Este projeto, denominado ICQ-Equatorial (Sistema de Inspeção de Controle de Qualidade da Equatorial), tem como objetivo otimizar o processo de inspeção de controle de qualidade da Equatorial. A solução proposta é uma plataforma web que permite aos inspetores registrarem dados de inspeção de forma padronizada, eficiente e segura, gerando relatórios detalhados para acompanhamento e tomada de decisões.
+Este projeto, denominado ICQ-Equatorial (Sistema de Inspeção de Controle de Qualidade da Equatorial), tem como objetivo otimizar o processo de inspeção de controle de qualidade da Equatorial. A solução proposta é uma plataforma web que permite aos inspetores registrarem dados de inspeção de forma padronizada, eficiente e segura, gerando relatórios detalhados para acompanhamento e tomada de decisões. **Além da otimização do processo, o projeto visa contribuir para um ganho ambiental, promovendo uma pegada verde ao reduzir o uso de papel e facilitar a rastreabilidade das informações, garantindo a segurança dos dados.**
 
 **Problema Identificado:** Atualmente, o registro das inspeções de controle de qualidade na Equatorial é realizado através de planilhas, sem um padrão definido, o que torna o processo lento, suscetível a erros e dificulta a análise de dados para melhorias e ações corretivas. A falta de um sistema centralizado dificulta a rastreabilidade e o acompanhamento das inspeções.
 
 **Solução Proposta:** Uma plataforma web que permite aos inspetores:
 
 *   Acessar o sistema com login e senha individual.
-*   Selecionar o tipo de inspeção a ser realizada (ex: Inspeção de Subestação, Inspeção de Linha de Transmissão, etc).
+*   Selecionar o tipo de inspeção a ser realizada.
 *   Preencher um checklist digital específico para cada tipo de inspeção, contendo informações essenciais a serem verificadas.
 *   Inserir dados de inspeção e resultados em cada item do checklist.
 *   Registrar parecer técnico: "Aprovado", "Reprovado" ou "Aprovado com Ressalvas" para cada item inspecionado.
