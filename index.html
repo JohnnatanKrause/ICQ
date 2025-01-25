@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICQ (Inspeção de Controle de Qualidade)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="display: flex; align-items: center;">
+            <div class="logo-container">
+            </div>
+            ICQ - INSPEÇÃO DE CONTROLE DE QUALIDADE
+        </h1>
+
+        <form id="loginForm" style="display: block;">
+            <p><br>Preencha os dados de identificação.</p><br>
+            <div class="inputs-container">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" class="black-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" class="black-text" required>
+                </div>
+                <div id="login-error" style="color: red; display: none;"></div>
+            </div>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+
+        <form id="inspectionForm" style="display: none;">
+            <div style="display:none" id="campos_apos_login">
+                <div class="form-group">
+                    <label for="empresaId">Unidade Enel:</label>
+                    <input type="text" id="empresaId" name="empresaId" class="black-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="contratoId">Contrato:</label>
+                    <input type="text" id="contratoId" name="contratoId" class="black-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="inspeçãoTipo">Inspeção:</label>
+                    <select id="inspeçãoTipo" name="inspeçãoTipo" class="black-text" required>
+                        <option value="">Selecione o Tipo da Inspeção</option>
+                        <option value="Linhas Aéreas de Média Tensão">Linhas Aéreas de Média Tensão</option>
+                        <option value="Equipamentos no poste">Equipamentos no poste</option>
+                        <option value="Transformador no poste">Transformador no poste</option>
+                        <option value="Ligação Nova">Ligação Nova</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tagMotor">Contratista:</label>
+                    <input type="text" id="tagMotor" name="tagMotor" class="black-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="direcaoE">Direção/E:</label>
+                    <input type="text" id="direcaoE" name="direcaoE" class="black-text" required>
+                </div>
+                <div class="form-group">
+                    <label for="supervisorContratista">Supervisor Contratista:</label>
+                    <input type="text" id="supervisorContratista" name="supervisorContratista" class="black-text"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="marca1">Número do poste inspecionado:</label>
+                    <input type="text" id="marca1" name="marca1" class="black-text" required>
+                </div>
+            </div>
+            <h2 id="inspectionTitle" style="text-align: center; margin-bottom: 20px; display: none;"></h2>
+            <p><br>Preencha o formulário com os dados da inspeção.</p><br>
+            <div id="dynamicFormContainer">
+            </div>
+            <button type="button" onclick="generateReport()" id="btn-proximo">Próximo</button>
+            <button type="button" onclick="goToForm3()" style="display:none" id="btn-gerar-relatorio">Gerar
+                Relatório</button>
+            <button id="btn-voltar" onclick="resetForms()" style="display: none;">Voltar ao Inicio</button>
+        </form>
+
+        <form id="reportForm" style="display: none;">
+            <h2 id="reportInspectionType" style="text-align: center; margin-bottom: 10px;"></h2>
+            <p><br>Analise dos dados.</p><br>
+            <div id="resultados"></div>
+            <div style="display: flex; justify-content: center;">
+                <label for="asBuiltStatus" style="font-weight: bold;">Resultado da Inspeção:</label>
+                <select id="asBuiltStatus" name="asBuiltStatus"
+                    style="margin-bottom: 20px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="Aprovada">Aprovada</option>
+                    <option value="Reprovada">Reprovada</option>
+                    <option value="Aprovado com Ressalvas">Aprovado com Ressalvas</option>
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+                <label for="observacoes" style="font-weight: bold;">Observações: (Resultado e prazos de solução)</label>
+                <textarea id="observacoes" name="observacoes" style="width: 80%; min-height: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            </div>
+            <button id="btn-print" onclick="printComparison()" style="display: none;">Imprimir Relatório</button>
+            <footer>
+                © Todos os direitos reservados. Desenvolvido por Johnnatan Krause Ribeiro Moreno<br>
+                © Tel:(45) 9 8821-3899 E-mail: johnnatankrause@gmail.com
+            </footer>
+        </form>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
