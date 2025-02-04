@@ -2,9 +2,9 @@
 
 ## 1. Introdução
 
-Este projeto, denominado ICQ (Sistema de Inspeção de Controle de Qualidade), tem como objetivo otimizar o processo de inspeção de controle de qualidade da Equatorial. A solução proposta é uma plataforma web que permite aos inspetores registrarem dados de inspeção de forma padronizada, eficiente e segura, gerando relatórios detalhados para acompanhamento e tomada de decisões. **Além da otimização do processo, o projeto visa contribuir para um ganho ambiental, promovendo uma pegada verde ao reduzir o uso de papel e facilitar a rastreabilidade das informações, garantindo a segurança dos dados.**
+Este projeto academico, denominado ICQ (Sistema de Inspeção de Controle de Qualidade), tem como objetivo otimizar o processo de inspeção de controle de qualidade de campo de empresas que trabalham com eletricidade, como Equatorial, Copel, EDP, Energisa, entre outras. A solução proposta é uma plataforma web que permite aos inspetores registrarem dados de inspeção de forma padronizada, eficiente e segura, gerando relatórios detalhados para acompanhamento e tomada de decisões. **Além da otimização do processo, o projeto visa contribuir para um ganho ambiental, promovendo uma pegada verde ao reduzir o uso de papel e facilitar a rastreabilidade das informações, garantindo a segurança dos dados.**
 
-**Problema Identificado:** Atualmente, o registro das inspeções de controle de qualidade na Equatorial é realizado através de planilhas, sem um padrão definido, o que torna o processo lento, suscetível a erros e dificulta a análise de dados para melhorias e ações corretivas. A falta de um sistema centralizado dificulta a rastreabilidade e o acompanhamento das inspeções.
+**Problema Identificado:** Atualmente, o registro das inspeções de controle de qualidade nessas empresas muitas vezes são realizados através de planilhas, sem um padrão definido, um app ou automação, o que torna o processo lento, suscetível a erros e dificulta a análise de dados para melhorias e ações corretivas. A falta de um sistema centralizado dificulta a rastreabilidade e o acompanhamento das inspeções.
 
 **Solução Proposta:** Uma plataforma web que permite aos inspetores:
 
@@ -19,7 +19,7 @@ Este projeto, denominado ICQ (Sistema de Inspeção de Controle de Qualidade), t
 
 ## 2. Objetivos do Projeto
 
-**Objetivo Geral:** Criar uma plataforma web para facilitar e padronizar o registro e a análise das inspeções de controle de qualidade da Equatorial, otimizando o processo, garantindo a qualidade e a segurança e facilitando o acompanhamento das ações corretivas.
+**Objetivo Geral:** Criar uma plataforma web para facilitar e padronizar o registro e a análise das inspeções de controle de qualidade, otimizando o processo, garantindo a qualidade e a segurança e facilitando o acompanhamento das ações corretivas.
 
 **Objetivos Específicos:**
 
@@ -35,7 +35,7 @@ Este projeto, denominado ICQ (Sistema de Inspeção de Controle de Qualidade), t
 
 ## 3. Justificativa
 
-Este projeto se justifica pela necessidade de modernizar e otimizar o processo de inspeção de controle de qualidade da Equatorial. A solução proposta oferece um sistema eficiente, padronizado e seguro, em comparação com o uso de planilhas, que são propensas a erros, perda de dados e dificultam a análise e o acompanhamento das inspeções. A melhoria do processo de inspeção contribui para a garantia da qualidade, segurança e a redução de custos operacionais.
+Este projeto se justifica pela necessidade de modernizar e otimizar o processo de inspeção de controle de qualidade dessas Empresas. A solução proposta oferece um sistema eficiente, padronizado e seguro, em comparação com o uso de planilhas, que são propensas a erros, perda de dados e dificultam a análise e o acompanhamento das inspeções. A melhoria do processo de inspeção contribui para a garantia da qualidade, segurança e a redução de custos operacionais.
 
 ## 4. Metodologia
 
@@ -66,7 +66,7 @@ Este projeto se justifica pela necessidade de modernizar e otimizar o processo d
 
 ## 7. Conclusão
 
-Este projeto tem como objetivo entregar uma solução prática, eficiente e segura para otimizar o processo de inspeção de controle de qualidade da Equatorial, utilizando tecnologias web acessíveis e aplicando os conhecimentos adquiridos. A implementação do ICQ-Equatorial contribuirá para uma operação mais segura, eficiente, padronizada e sustentável.
+Este projeto academico tem como objetivo entregar uma solução prática, eficiente e segura para otimizar o processo de inspeção de controle de qualidade da Equatorial, utilizando tecnologias web acessíveis e aplicando os conhecimentos adquiridos. A implementação do ICQ-Equatorial contribuirá para uma operação mais segura, eficiente, padronizada e sustentável.
 
 **Confira o SITE aqui!** [ICQ-Equatorial](https://github.com/JohnnatanKrause/ICQ-Equatorial)
 
