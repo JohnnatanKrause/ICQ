@@ -68,7 +68,7 @@ Este projeto se justifica pela necessidade de modernizar e otimizar o processo d
 
 Este projeto academico tem como objetivo entregar uma solução prática, eficiente e segura para otimizar o processo de inspeção de controle de qualidade da Equatorial, utilizando tecnologias web acessíveis e aplicando os conhecimentos adquiridos. A implementação do ICQ-Equatorial contribuirá para uma operação mais segura, eficiente, padronizada e sustentável.
 
-**Confira o SITE aqui!** [ICQ-Equatorial](https://github.com/JohnnatanKrause/ICQ-Equatorial)
+**Confira o SITE aqui!** [ICQ-Equatorial](https://johnnatankrause.github.io/ICQ/)
 
 
 **Atenciosamente,**  
