@@ -13,7 +13,7 @@
         <h1 style="display: flex; align-items: center;">
             <div class="logo-container">
             </div>
-            ICQ - INSPEÇÃO DE CONTROLE DE QUALIDADE
+            ICQ - INSPEÇÃO DE CONTROLE DE QUALIDADE (MODO TESTE)
         </h1>
 
         <form id="loginForm" style="display: block;">
@@ -65,22 +65,19 @@
                     <input type="text" id="supervisorContratista" name="supervisorContratista" class="black-text"
                         required>
                 </div>
-                <div class="form-group">
-                    <label for="marca1">Número do poste inspecionado:</label>
-                    <input type="text" id="marca1" name="marca1" class="black-text" required>
-                </div>
+                
             </div>
             <h2 id="inspectionTitle" style="text-align: center; margin-bottom: 20px; display: none;"></h2>
             <p><br>Preencha o formulário com os dados da inspeção.</p><br>
             <div id="dynamicFormContainer">
             </div>
-            <button type="button" onclick="generateReport()" id="btn-proximo">Próximo</button>
+            <button type="button" onclick="showDynamicForm()" id="btn-proximo">Próximo</button>
             <button type="button" onclick="goToForm3()" style="display:none" id="btn-gerar-relatorio">Gerar
                 Relatório</button>
             <button id="btn-voltar" onclick="resetForms()" style="display: none;">Voltar ao Inicio</button>
         </form>
 
-        <form id="reportForm" style="display: none;">
+         <form id="reportForm" style="display: none;">
             <h2 id="reportInspectionType" style="text-align: center; margin-bottom: 10px;"></h2>
             <p><br>Analise dos dados.</p><br>
             <div id="resultados"></div>
@@ -102,6 +99,14 @@
                 © Todos os direitos reservados. Desenvolvido por Johnnatan Krause Ribeiro Moreno<br>
                 © Tel:(45) 9 8821-3899 E-mail: johnnatankrause@gmail.com
             </footer>
+        </form>
+    <div id="print-container" style="display:none;"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
         </form>
     </div>
     <script src="js/script.js"></script>
