@@ -428,7 +428,8 @@ async function capturePhoto(doc, itemId) {
     if (!imagePreview) return; // Verifica se o elemento de visualização existe
     let stream = null;
     try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } });
+        //stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
         video.play();
 
