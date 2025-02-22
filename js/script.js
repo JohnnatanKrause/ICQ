@@ -576,7 +576,7 @@ function printComparison() {
     const asBuiltStatus = document.getElementById('asBuiltStatus').value;
 
     let tableContent = "<table>";
-    tableContent += `<tr><th>Item</th><th>Detalhamento da Inspeção</th><th>Observação</th></tr>`; // Adiciona a coluna Observação
+    tableContent += `<tr><th>Item</th><th>Detalhamento da Inspeção</th><th>Observação</th><th>Foto</th></tr>`; // Adiciona a coluna Observação e Foto
 
     if (inspectionQuestions[inspectionType]) {
         for (const doc in inspectionQuestions[inspectionType]) {
@@ -589,7 +589,11 @@ function printComparison() {
                 const observacaoTextarea = document.getElementById(`observacao-texto-${doc}-${itemId}`);
                 const observacaoValue = observacaoTextarea ? observacaoTextarea.value : ''; // Obtém o valor da textarea
 
-                tableContent += `<tr><td>${item.label}</td><td>${detalhamentoValue}</td><td>${observacaoValue}</td></tr>`; // Adiciona a observação na linha
+                // Adiciona a foto ao relatório, se existir
+                const photoDataUrl = capturedPhotos[`${doc}-${itemId}`] || "";
+                const imageHtml = photoDataUrl ? `<img src="${photoDataUrl}" style="max-width: 100px; max-height: 100px;"/>` : "Sem foto";
+
+                tableContent += `<tr><td>${item.label}</td><td>${detalhamentoValue}</td><td>${observacaoValue}</td><td>${imageHtml}</td></tr>`; // Adiciona a observação e a foto na linha
             }
         }
     }
@@ -644,19 +648,19 @@ function printComparison() {
             const pdfName = `relatorio_inspecao_${dataHora.replace(/[\/:]/g, '_')}.pdf`;
             doc.save(pdfName);
 
-            const compareAnother = confirm("Deseja realizar outra inspeção?");
-            if (!compareAnother) {
+            //const compareAnother = confirm("Deseja realizar outra inspeção?");
+            //if (!compareAnother) {
 
-                resetForms();
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('inspectionForm').style.display = 'none';
-                document.getElementById('reportForm').style.display = 'none';
-                document.body.classList.add('form1-bg');
-                document.body.classList.remove("form2-bg");
-                document.body.classList.remove("form3-bg");
-                loggedInUser = null;
+            resetForms();
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('inspectionForm').style.display = 'none';
+            document.getElementById('reportForm').style.display = 'none';
+            document.body.classList.add('form1-bg');
+            document.body.classList.remove("form2-bg");
+            document.body.classList.remove("form3-bg");
+            loggedInUser = null;
 
-            } else {
+            /*} else {
                 resetInspectionForm();
                 document.body.classList.remove("form3-bg");
                 document.body.classList.add("form2-bg");
@@ -664,7 +668,7 @@ function printComparison() {
                 document.getElementById('inspectionForm').style.display = "block";
                 document.getElementById('reportForm').style.display = "none";
 
-            }
+            }*/
         },
         margin: [20, 10, 20, 10],
         autoPaging: "text",
