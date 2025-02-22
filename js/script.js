@@ -358,7 +358,7 @@ function generateDynamicForm(inspectionType) {
             // **ADICIONANDO A CAIXA DE OBSERVAÇÃO**
             const observacaoDiv = document.createElement('div');
             observacaoDiv.id = `observacao-${doc}-${itemId}`;
-            observacaoDiv.style.display = 'none'; // Inicialmente escondida
+            observacaoDiv.style.display = 'block'; // SEMPRE VISÍVEL
             observacaoDiv.style.marginTop = '5px';
 
             const observacaoLabel = document.createElement('label');
@@ -375,21 +375,22 @@ function generateDynamicForm(inspectionType) {
 
             selectContainer.appendChild(observacaoDiv);
 
-            // **ADICIONANDO O EVENT LISTENER**
+            /* REMOVENDO O EVENT LISTENER
             detalhamentoSelect.addEventListener('change', function() {
-                console.log("Opção selecionada:", this.value); // DEBUG
-                const naoSeAplica = 'Não se Aplica'; // Use const para definir os valores
+                console.log("Opção selecionada:", this.value);
+                const naoSeAplica = 'Não se Aplica';
                 const naoConforme = 'Não Conforme - Defeito';
-                console.log("Comparando com:", naoSeAplica, naoConforme); // DEBUG
-            
+                console.log("Comparando com:", naoSeAplica, naoConforme);
+
                 if (this.value === naoSeAplica || this.value === naoConforme) {
-                    console.log("Condição verdadeira!"); // DEBUG
+                    console.log("Condição verdadeira!");
                     observacaoDiv.style.display = 'block';
                 } else {
-                    console.log("Condição falsa!"); // DEBUG
+                    console.log("Condição falsa!");
                     observacaoDiv.style.display = 'none';
                 }
             });
+            */
 
             // Adiciona o botão para tirar foto e o elemento para exibir a imagem
             const photoContainer = document.createElement("div");
@@ -418,7 +419,6 @@ function generateDynamicForm(inspectionType) {
     }
     adjustSelectWidth();
 }
-
 // Variável para armazenar as fotos em base64 para cada pergunta
 let capturedPhotos = {};
 const video = document.createElement('video');
