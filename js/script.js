@@ -423,7 +423,118 @@ function generateDynamicForm(inspectionType) {
 let capturedPhotos = {};
 const video = document.createElement('video');
 
+// Variável global para armazenar a stream da câmera
+let cameraStream = null;
+
 async function capturePhoto(doc, itemId) {
+    const imagePreview = document.getElementById(`image-${doc}-${itemId}`);
+    if (!imagePreview) return;
+
+    try {
+        // Se já houver uma stream ativa, pare-a
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+        }
+
+        // Obter as informações dos dispositivos de mídia disponíveis
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+        let deviceId;
+
+        // Se houver mais de uma câmera, solicitar ao usuário para escolher
+        if (videoDevices.length > 1) {
+            deviceId = await chooseCamera(videoDevices);
+            if (!deviceId) {
+                console.log('Nenhuma câmera selecionada.');
+                return;
+            }
+        } else if (videoDevices.length === 1) {
+            // Se houver apenas uma câmera, usar o ID dela
+            deviceId = videoDevices[0].deviceId;
+        } else {
+            alert('Nenhuma câmera disponível.');
+            return;
+        }
+
+        // Obter a stream de vídeo da câmera selecionada
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: { exact: deviceId } }
+        });
+
+        video.srcObject = cameraStream;
+        video.play();
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 320;
+        canvas.height = 240;
+
+        // Aguardar um pequeno tempo para a câmera iniciar
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Desenhar o frame da câmera no canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Obter a imagem como um Data URL (base64)
+        const photoDataUrl = canvas.toDataURL('image/png');
+
+        // Armazenar a foto
+        capturedPhotos[`${doc}-${itemId}`] = photoDataUrl;
+        imagePreview.src = photoDataUrl;
+        imagePreview.style.display = 'block';
+
+    } catch (error) {
+        console.error('Erro ao acessar a câmera:', error);
+        alert('Não foi possível acessar a câmera. Verifique as permissões do seu navegador ou tente outra câmera.');
+    } finally {
+        // Não vamos parar a stream aqui, pois ela pode ser reutilizada
+        video.remove();
+    }
+}
+
+async function chooseCamera(videoDevices) {
+    return new Promise((resolve) => {
+        // Criar um diálogo ou interface para o usuário escolher a câmera
+        const cameraOptions = videoDevices.map(device => `<option value="${device.deviceId}">${device.label}</option>`).join('');
+
+        const modalHtml = `
+            <div id="cameraModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
+                <div style="background-color: white; padding: 20px; border-radius: 5px;">
+                    <label for="cameraSelect">Escolha a câmera:</label>
+                    <select id="cameraSelect">
+                        ${cameraOptions}
+                    </select>
+                    <button id="selectCameraButton">Selecionar</button>
+                    <button id="cancelCameraButton">Cancelar</button>
+                </div>
+            </div>
+        `;
+
+        // Adicionar o HTML ao body
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        const modal = document.getElementById('cameraModal');
+        const select = document.getElementById('cameraSelect');
+        const selectButton = document.getElementById('selectCameraButton');
+        const cancelButton = document.getElementById('cancelCameraButton');
+
+        // Lidar com a seleção da câmera
+        selectButton.addEventListener('click', () => {
+            resolve(select.value);
+            modal.remove();
+        });
+
+        // Lidar com o cancelamento
+        cancelButton.addEventListener('click', () => {
+            resolve(null);
+            modal.remove();
+        });
+    });
+}
+
+/*async function capturePhoto(doc, itemId) {
     const imagePreview = document.getElementById(`image-${doc}-${itemId}`);
     if (!imagePreview) return; // Verifica se o elemento de visualização existe
     let stream = null;
@@ -462,7 +573,7 @@ async function capturePhoto(doc, itemId) {
         }
         video.remove();
     }
-}
+}*/
 function adjustSelectWidth() {
     const selects = document.querySelectorAll('.form-group .selectContainer select');
     selects.forEach(select => {
