@@ -375,23 +375,6 @@ function generateDynamicForm(inspectionType) {
 
             selectContainer.appendChild(observacaoDiv);
 
-            /* REMOVENDO O EVENT LISTENER
-            detalhamentoSelect.addEventListener('change', function() {
-                console.log("Opção selecionada:", this.value);
-                const naoSeAplica = 'Não se Aplica';
-                const naoConforme = 'Não Conforme - Defeito';
-                console.log("Comparando com:", naoSeAplica, naoConforme);
-
-                if (this.value === naoSeAplica || this.value === naoConforme) {
-                    console.log("Condição verdadeira!");
-                    observacaoDiv.style.display = 'block';
-                } else {
-                    console.log("Condição falsa!");
-                    observacaoDiv.style.display = 'none';
-                }
-            });
-            */
-
             // Adiciona o botão para tirar foto e o elemento para exibir a imagem
             const photoContainer = document.createElement("div");
             photoContainer.classList.add("photo-container");
@@ -534,46 +517,6 @@ async function chooseCamera(videoDevices) {
     });
 }
 
-/*async function capturePhoto(doc, itemId) {
-    const imagePreview = document.getElementById(`image-${doc}-${itemId}`);
-    if (!imagePreview) return; // Verifica se o elemento de visualização existe
-    let stream = null;
-    try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } });
-        //stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-        video.play();
-
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-
-        // Defina a largura e altura do canvas para a imagem da câmera
-        canvas.width = 320;
-        canvas.height = 240;
-
-        // Aguarde um pequeno tempo para a câmera iniciar
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        // Desenhe o frame da câmera no canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Obtenha a imagem como um Data URL (base64)
-        const photoDataUrl = canvas.toDataURL('image/png');
-
-        // Adicione a foto ao array de fotos para esta pergunta
-        capturedPhotos[`${doc}-${itemId}`] = photoDataUrl;
-        imagePreview.src = photoDataUrl;
-        imagePreview.style.display = 'block';
-    } catch (error) {
-        console.error('Erro ao acessar a câmera:', error);
-        alert('Não foi possível acessar a câmera. Verifique as permissões do seu navegador.');
-    } finally {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-        video.remove();
-    }
-}*/
 function adjustSelectWidth() {
     const selects = document.querySelectorAll('.form-group .selectContainer select');
     selects.forEach(select => {
@@ -666,7 +609,7 @@ function generateReportSummary() {
     resultsDiv.innerHTML = tableContent;
 }
 
-function printComparison() {
+/*function printComparison() {
     const resultsDiv = document.getElementById("resultados");
     const inspectionType = document.getElementById("inspeçãoTipo").value;
 
@@ -771,20 +714,137 @@ function printComparison() {
             document.body.classList.remove("form3-bg");
             loggedInUser = null;
 
-            /*} else {
-                resetInspectionForm();
-                document.body.classList.remove("form3-bg");
-                document.body.classList.add("form2-bg");
-                document.getElementById('inspectionTitle').style.display = "none";
-                document.getElementById('inspectionForm').style.display = "block";
-                document.getElementById('reportForm').style.display = "none";
-
-            }*/
-        },
+                    },
         margin: [20, 10, 20, 10],
         autoPaging: "text",
         x: 0,
         y: 0,
+    });
+}*/
+function printComparison() {
+    const resultsDiv = document.getElementById("resultados");
+    const inspectionType = document.getElementById("inspeçãoTipo").value;
+
+    if (resultsDiv.innerHTML.trim() === "") {
+        alert("Realize uma inspeção antes de imprimir.");
+        return;
+    }
+
+    const operadorId = document.getElementById("username").value;
+    const empresaId = document.getElementById("empresaId").value;
+    const contratoId = document.getElementById("contratoId").value;
+    const tagMotor = document.getElementById("tagMotor").value;
+    const direcaoE = document.getElementById("direcaoE").value;
+    const supervisorContratista = document.getElementById("supervisorContratista").value;
+    const marca = document.getElementById("marca1").value ? document.getElementById("marca1").value.toUpperCase() : "Não Informado";
+    const dataHora = new Date().toLocaleString();
+    const tipo = document.getElementById("inspeçãoTipo").value;
+    const observacoes = document.getElementById('observacoes').value;
+    const asBuiltStatus = document.getElementById('asBuiltStatus').value;
+
+    let tableContent = "<table style='border-collapse: collapse; width: 100%;'>";
+    tableContent += "<tr style='background-color: #f2f2f2;'>";
+    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Item</th>";
+    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Detalhamento da Inspeção</th>";
+    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Observação</th>";
+    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Foto</th>";
+    tableContent += "</tr>";
+
+    if (inspectionQuestions[inspectionType]) {
+        for (const doc in inspectionQuestions[inspectionType]) {
+            for (const itemId in inspectionQuestions[inspectionType][doc]) {
+                const item = inspectionQuestions[inspectionType][doc][itemId];
+                const detalhamentoSelect = document.getElementById(`detalhamento-${doc}-${itemId}`);
+                let detalhamentoValue = detalhamentoSelect ? detalhamentoSelect.value : 'Não Respondido';
+
+                const observacaoTextarea = document.getElementById(`observacao-texto-${doc}-${itemId}`);
+                const observacaoValue = observacaoTextarea ? observacaoTextarea.value : '';
+
+                const photoDataUrl = capturedPhotos[`${doc}-${itemId}`] || "";
+                const imageHtml = photoDataUrl ? `<img src="${photoDataUrl}" style="max-width: 100px; max-height: 100px;"/>` : "Sem foto";
+
+                tableContent += "<tr>";
+                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${item.label}</td>`;
+                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${detalhamentoValue}</td>`;
+                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${observacaoValue}</td>`;
+                tableContent += `<td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>${imageHtml}</td>`;
+                tableContent += "</tr>";
+            }
+        }
+    }
+    tableContent += "</table>";
+
+    let printContent = `
+        <div style="font-family: Arial, sans-serif; font-size: 12px;">
+            <h1 style="text-align: center; font-size: 1.5em; font-weight: bold;">Relatório de Inspeção de Qualidade</h1>
+            <h2 style="text-align: center; font-size: 1.2em; font-weight: bold; margin-top: 10px;">
+                <p><b>Inspeção Realizada:</b> ${dataHora}</p>
+            </h2>
+            <h2 style="text-align: center; font-size: 1.2em; font-weight: bold; margin-top: 10px;">
+                <p><b>Tipo de Inspeção:</b> ${tipo}</p>
+            </h2>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <p><b>Inspetor:</b> ${operadorId}</p>
+                    <p><b>Unidade Enel:</b> ${empresaId}</p>
+                    <p><b>Contrato:</b> ${contratoId}</p>
+                </div>
+                <div style="width: 48%;">
+                    <p><b>Contratista:</b> ${tagMotor}</p>
+                    <p><b>Supervisor Contratista:</b> ${supervisorContratista}</p>
+                    <p><b>Número do poste inspecionado:</b> ${marca}</p>
+                    <p><b>Direção/E:</b> ${direcaoE}</p>
+                </div>
+            </div>
+            ${tableContent}
+            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                <p style="font-weight: bold;"><b>Resultado da Inspeção:</b> ${asBuiltStatus}</p>
+            </div>
+            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                <p style="font-weight: bold;"><b>Observações:</b> ${observacoes}</p>
+            </div>
+            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                <div style="text-align: center;">
+                    <p>__________________________</p>
+                    <p>Assinatura do Inspetor</p>
+                </div>
+                <div style="text-align: center;">
+                    <p>__________________________</p>
+                    <p>Assinatura do Responsável</p>
+                </div>
+            </div>
+            <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 0.8em; margin-top: 0;">
+                <b>© Todos os direitos reservados. Desenvolvido por: Johnnatan Krause Ribeiro Moreno
+                    <br>© Tel:(45) 9 8821-3899 E-mail: johnnatankrause@gmail.com</b>
+            </footer>
+        </div>
+    `;
+
+    document.getElementById("print-container").innerHTML = printContent;
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4'); // Define o formato da página como A4
+
+    pdf.html(document.getElementById("print-container"), {
+        callback: function (doc) {
+            const pdfName = `relatorio_inspecao_${dataHora.replace(/[\/:]/g, '_')}.pdf`;
+            doc.save(pdfName);
+
+            resetForms();
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('inspectionForm').style.display = 'none';
+            document.getElementById('reportForm').style.display = 'none';
+            document.body.classList.add('form1-bg');
+            document.body.classList.remove("form2-bg");
+            document.body.classList.remove("form3-bg");
+            loggedInUser = null;
+        },
+        margin: [10, 10, 10, 10], // Reduz a margem para aproveitar melhor o espaço
+        autoPaging: "text",
+        x: 0,
+        y: 0,
+        width: 190, // Largura do conteúdo no PDF (A4 tem 210mm, menos as margens)
+        windowWidth: 675  // Aumente este valor para corresponder à largura da sua janela
     });
 }
 function resetForms() {
