@@ -609,7 +609,7 @@ function generateReportSummary() {
     resultsDiv.innerHTML = tableContent;
 }
 
-/*function printComparison() {
+function printComparison() {
     const resultsDiv = document.getElementById("resultados");
     const inspectionType = document.getElementById("inspeçãoTipo").value;
 
@@ -623,36 +623,29 @@ function generateReportSummary() {
     const tagMotor = document.getElementById("tagMotor").value;
     const direcaoE = document.getElementById("direcaoE").value;
     const supervisorContratista = document.getElementById("supervisorContratista").value;
-    const marca = document.getElementById("marca1").value ? document.getElementById("marca1").value.toUpperCase() : "Não Informado";
+    const marca = document.getElementById("marca1").value.toUpperCase();
     const dataHora = new Date().toLocaleString();
     const tipo = document.getElementById("inspeçãoTipo").value;
-    const observacoes = document.getElementById('observacoes').value;
-    const asBuiltStatus = document.getElementById('asBuiltStatus').value;
-
+    const observacoes = document.getElementById('observacoes').value; // Obtem as observações
+    const asBuiltStatus = document.getElementById('asBuiltStatus').value; // Obtem a seleção
     let tableContent = "<table>";
-    tableContent += `<tr><th>Item</th><th>Detalhamento da Inspeção</th><th>Observação</th><th>Foto</th></tr>`; // Adiciona a coluna Observação e Foto
+    tableContent += `<tr><th>Item</th><th>Detalhamento da Inspeção</th><th>Nível de Defeito</th></tr>`;
 
     if (inspectionQuestions[inspectionType]) {
         for (const doc in inspectionQuestions[inspectionType]) {
             for (const itemId in inspectionQuestions[inspectionType][doc]) {
                 const item = inspectionQuestions[inspectionType][doc][itemId];
                 const detalhamentoSelect = document.getElementById(`detalhamento-${doc}-${itemId}`);
+                const nivelDefeitoSelect = document.getElementById(`nivelDefeito-${doc}-${itemId}`);
+
                 let detalhamentoValue = detalhamentoSelect ? detalhamentoSelect.value : 'Não Respondido';
+                let nivelDefeitoValue = nivelDefeitoSelect ? nivelDefeitoSelect.value : 'Não Respondido';
 
-                // **OBTENDO O VALOR DA OBSERVAÇÃO**
-                const observacaoTextarea = document.getElementById(`observacao-texto-${doc}-${itemId}`);
-                const observacaoValue = observacaoTextarea ? observacaoTextarea.value : ''; // Obtém o valor da textarea
-
-                // Adiciona a foto ao relatório, se existir
-                const photoDataUrl = capturedPhotos[`${doc}-${itemId}`] || "";
-                const imageHtml = photoDataUrl ? `<img src="${photoDataUrl}" style="max-width: 100px; max-height: 100px;"/>` : "Sem foto";
-
-                tableContent += `<tr><td>${item.label}</td><td>${detalhamentoValue}</td><td>${observacaoValue}</td><td>${imageHtml}</td></tr>`; // Adiciona a observação e a foto na linha
+                tableContent += `<tr><td>${item.label}</td><td>${detalhamentoValue}</td><td>${nivelDefeitoValue}</td></tr>`;
             }
         }
     }
     tableContent += "</table>";
-
     let printContent = `
     <h1 style="text-align: center; font-size: 1.5em; font-weight: bold;">Relatório de Inspeção de Qualidade</h1>
         <h2 style="text-align: center; font-size: 1.2em; font-weight: bold; margin-top: 10px;"><p><b>Inspeção Realizada:</b> ${dataHora}</p></h2>
@@ -671,7 +664,7 @@ function generateReportSummary() {
         </div>
         </div>
         ${tableContent}
-       <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
         <p style="font-weight: bold;"><b>Resultado da Inspeção: </b>${asBuiltStatus}</p>
         </div>
         <div style="display: flex; justify-content: center; margin-bottom: 20px;">
@@ -692,163 +685,45 @@ function generateReportSummary() {
         © Tel:(45) 9 8821-3899                       E-mail: johnnatankrause@gmail.com</b>
         </footer>
 `;
-    document.getElementById("print-container").innerHTML = printContent;
+    const printIframe = document.createElement('iframe');
+    printIframe.style.display = 'none';
+    document.body.appendChild(printIframe);
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
+    const printDocument = printIframe.contentDocument || printIframe.contentWindow.document;
 
-    pdf.html(document.getElementById("print-container"), {
-        callback: function (doc) {
-            const pdfName = `relatorio_inspecao_${dataHora.replace(/[\/:]/g, '_')}.pdf`;
-            doc.save(pdfName);
+    printDocument.open();
+    printDocument.write(`<html><head><title>Análise de dados de Inspeção</title><style>body{font-family:sans-serif;} table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; } th { background-color: #f2f2f2; }</style></head><body>${printContent}</body></html>`);
+    printDocument.close();
 
-            //const compareAnother = confirm("Deseja realizar outra inspeção?");
-            //if (!compareAnother) {
+    printIframe.contentWindow.focus();
+    printIframe.contentWindow.print();
 
+    setTimeout(() => {
+        document.body.removeChild(printIframe);
+        const compareAnother = confirm("Deseja realizar outra inspeção?");
+        if (!compareAnother) {
             resetForms();
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('inspectionForm').style.display = 'none';
             document.getElementById('reportForm').style.display = 'none';
             document.body.classList.add('form1-bg');
             document.body.classList.remove("form2-bg");
-            document.body.classList.remove("form3-bg");
+             document.body.classList.remove("form3-bg");
             loggedInUser = null;
-
-                    },
-        margin: [20, 10, 20, 10],
-        autoPaging: "text",
-        x: 0,
-        y: 0,
-    });
-}*/
-/*function printComparison() {
-    const resultsDiv = document.getElementById("resultados");
-    const inspectionType = document.getElementById("inspeçãoTipo").value;
-
-    if (resultsDiv.innerHTML.trim() === "") {
-        alert("Realize uma inspeção antes de imprimir.");
-        return;
-    }
-
-    const operadorId = document.getElementById("username").value;
-    const empresaId = document.getElementById("empresaId").value;
-    const contratoId = document.getElementById("contratoId").value;
-    const tagMotor = document.getElementById("tagMotor").value;
-    const direcaoE = document.getElementById("direcaoE").value;
-    const supervisorContratista = document.getElementById("supervisorContratista").value;
-    const marca = document.getElementById("marca1").value ? document.getElementById("marca1").value.toUpperCase() : "Não Informado";
-    const dataHora = new Date().toLocaleString();
-    const tipo = document.getElementById("inspeçãoTipo").value;
-    const observacoes = document.getElementById('observacoes').value;
-    const asBuiltStatus = document.getElementById('asBuiltStatus').value;
-
-    let tableContent = "<table style='border-collapse: collapse; width: 100%;'>";
-    tableContent += "<tr style='background-color: #f2f2f2;'>";
-    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Item</th>";
-    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Detalhamento da Inspeção</th>";
-    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Observação</th>";
-    tableContent += "<th style='border: 1px solid #ddd; padding: 8px; text-align: left;'>Foto</th>";
-    tableContent += "</tr>";
-
-    if (inspectionQuestions[inspectionType]) {
-        for (const doc in inspectionQuestions[inspectionType]) {
-            for (const itemId in inspectionQuestions[inspectionType][doc]) {
-                const item = inspectionQuestions[inspectionType][doc][itemId];
-                const detalhamentoSelect = document.getElementById(`detalhamento-${doc}-${itemId}`);
-                let detalhamentoValue = detalhamentoSelect ? detalhamentoSelect.value : 'Não Respondido';
-
-                const observacaoTextarea = document.getElementById(`observacao-texto-${doc}-${itemId}`);
-                const observacaoValue = observacaoTextarea ? observacaoTextarea.value : '';
-
-                const photoDataUrl = capturedPhotos[`${doc}-${itemId}`] || "";
-                const imageHtml = photoDataUrl ? `<img src="${photoDataUrl}" style="max-width: 100px; max-height: 100px;"/>` : "Sem foto";
-
-                tableContent += "<tr>";
-                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${item.label}</td>`;
-                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${detalhamentoValue}</td>`;
-                tableContent += `<td style='border: 1px solid #ddd; padding: 8px;'>${observacaoValue}</td>`;
-                tableContent += `<td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>${imageHtml}</td>`;
-                tableContent += "</tr>";
-            }
+            
+        } else {
+            resetInspectionForm();
+             document.body.classList.remove("form3-bg");
+            document.body.classList.add("form2-bg");
+               document.getElementById('inspectionTitle').style.display = "none";
+            document.getElementById('inspectionForm').style.display = "block";
+            document.getElementById('reportForm').style.display = "none";
+        
         }
-    }
-    tableContent += "</table>";
+    }, 500);
+}
 
-    let printContent = `
-        <div style="font-family: Arial, sans-serif; font-size: 12px;">
-            <h1 style="text-align: center; font-size: 1.5em; font-weight: bold;">Relatório de Inspeção de Qualidade</h1>
-            <h2 style="text-align: center; font-size: 1.2em; font-weight: bold; margin-top: 10px;">
-                <p><b>Inspeção Realizada:</b> ${dataHora}</p>
-            </h2>
-            <h2 style="text-align: center; font-size: 1.2em; font-weight: bold; margin-top: 10px;">
-                <p><b>Tipo de Inspeção:</b> ${tipo}</p>
-            </h2>
-            <div style="display: flex; justify-content: space-between;">
-                <div style="width: 48%;">
-                    <p><b>Inspetor:</b> ${operadorId}</p>
-                    <p><b>Unidade Enel:</b> ${empresaId}</p>
-                    <p><b>Contrato:</b> ${contratoId}</p>
-                </div>
-                <div style="width: 48%;">
-                    <p><b>Contratista:</b> ${tagMotor}</p>
-                    <p><b>Supervisor Contratista:</b> ${supervisorContratista}</p>
-                    <p><b>Número do poste inspecionado:</b> ${marca}</p>
-                    <p><b>Direção/E:</b> ${direcaoE}</p>
-                </div>
-            </div>
-            ${tableContent}
-            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-                <p style="font-weight: bold;"><b>Resultado da Inspeção:</b> ${asBuiltStatus}</p>
-            </div>
-            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-                <p style="font-weight: bold;"><b>Observações:</b> ${observacoes}</p>
-            </div>
-            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-                <div style="text-align: center;">
-                    <p>__________________________</p>
-                    <p>Assinatura do Inspetor</p>
-                </div>
-                <div style="text-align: center;">
-                    <p>__________________________</p>
-                    <p>Assinatura do Responsável</p>
-                </div>
-            </div>
-            <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 0.8em; margin-top: 0;">
-                <b>© Todos os direitos reservados. Desenvolvido por: Johnnatan Krause Ribeiro Moreno
-                    <br>© Tel:(45) 9 8821-3899 E-mail: johnnatankrause@gmail.com</b>
-            </footer>
-        </div>
-    `;
-
-    document.getElementById("print-container").innerHTML = printContent;
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'mm', 'a4'); // Define o formato da página como A4
-
-    pdf.html(document.getElementById("print-container"), {
-        callback: function (doc) {
-            const pdfName = `relatorio_inspecao_${dataHora.replace(/[\/:]/g, '_')}.pdf`;
-            doc.save(pdfName);
-
-            resetForms();
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('inspectionForm').style.display = 'none';
-            document.getElementById('reportForm').style.display = 'none';
-            document.body.classList.add('form1-bg');
-            document.body.classList.remove("form2-bg");
-            document.body.classList.remove("form3-bg");
-            loggedInUser = null;
-        },
-        margin: [10, 10, 10, 10], // Reduz a margem para aproveitar melhor o espaço
-        autoPaging: "text",
-        x: 0,
-        y: 0,
-        width: 190, // Largura do conteúdo no PDF (A4 tem 210mm, menos as margens)
-        windowWidth: 675  // Aumente este valor para corresponder à largura da sua janela
-    });
-}*/
-
-function printComparison() {
+/*function printComparison() {
     const resultsDiv = document.getElementById("resultados");
     const inspectionType = document.getElementById("inspeçãoTipo").value;
 
@@ -976,7 +851,7 @@ function printComparison() {
         width: 190, // Largura do conteúdo no PDF (A4 tem 210mm, menos as margens)
         windowWidth: 675  // Aumente este valor para corresponder à largura da sua janela
     });
-}
+}*/
 function resetForms() {
     document.getElementById("loginForm").reset();
     document.getElementById("inspectionForm").reset();
